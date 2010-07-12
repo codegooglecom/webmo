@@ -1,0 +1,19 @@
+#summary WebMo的简介和使用思想
+
+= 1.简介 =
+== Subheading == 
+=== Level 3 === 
+==== Level 4 ==== 
+
+
+Add your content here.
+
+{{{
+int i;
+}}}
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
