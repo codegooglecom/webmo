@@ -98,7 +98,13 @@ void WebView::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setBrush(QBrush(Qt::blue, Qt::BDiagPattern));
     if(!enclosingElement.isNull())
-        painter.drawRect(enclosingElement.geometry());
+    {
+        QRect eRect = enclosingElement.geometry();
+        QPoint mPoint = page()->mainFrame()->scrollPosition();
+        int x = eRect.x() - mPoint.x();
+        int y = eRect.y() - mPoint.y();
+        painter.drawRect(x, y, eRect.width(), eRect.height());
+    }
 }
 
 int getIndex(QWebElement *element)
