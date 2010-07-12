@@ -13,7 +13,8 @@ int i;
 }}}
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+
+
+  * *易用*——提供简单易用的用户界面
+  * *可移植性*——提供在各种操作系统运行的版本
+  * *运行效率高*——使用C++编写
