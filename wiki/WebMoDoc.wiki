@@ -24,12 +24,12 @@
  * *适合广泛的用户*——程序可在各种操作系统平台下运行     
 ----  
 == 1.4 用到的XML课程知识 ==
- * *HTML/XHTML*——HTML为本程序的交互对象与处理解析对象，生成的抽取器为XHTML文档
- * *层叠样单CSS*——用于描述抽取器的外观
- * *Javascript*——生成的抽取器主要由Javascript实现
- * *Ajax*——生成的抽取器使用Ajax实现无刷新数据定时抽取
- * *DOM编程*——无论是监测显示用户选取的网页元素，还是解析选取元素的路径，还是所生成的javascript抽取功能的实现，都用到了DOM编程。主要涉及到Qt和Javascript两种语言的DOM编程。
- * *XPath*——在运用jQuery时，使用了类XPath的选择器。
+ * *HTML/XHTML* ——HTML为本程序的交互对象与处理解析对象，生成的抽取器为XHTML文档
+ * *层叠样单CSS* ——用于描述抽取器的外观
+ * *Javascript* ——生成的抽取器主要由Javascript实现
+ * *Ajax* ——生成的抽取器使用Ajax实现无刷新数据定时抽取
+ * *DOM编程* ——无论是监测显示用户选取的网页元素，还是解析选取元素的路径，还是所生成的javascript抽取功能的实现，都用到了DOM编程。主要涉及到Qt和Javascript两种语言的DOM编程。
+ * *XPath* ——在运用jQuery时，使用了类XPath的选择器。
 ----
 = 2 设计思想 =
 ----
