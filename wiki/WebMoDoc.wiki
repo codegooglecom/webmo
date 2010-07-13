@@ -233,13 +233,16 @@ for(int i=0;
 == 4.1 使用环境说明 ==
 本程序为绿色软件，无需安装，不依赖额外的运行库，在Windows下通过测试。同时，亦可直接编译Linux、Mac OS等操作系统平台上运行的版本。
 == 4.2 应用例子1——获得京东的最新特价商品 ==
-步骤1：前往京东首页
+
+*步骤1：前往京东首页*
+
 在地址栏输入http://www.360buy.com/并回车，程序窗口显示如下页面：
 
 https://webmo.googlecode.com/svn/wiki/7.jpg
 
 
-步骤2：选取特价信息的区域
+*步骤2：选取特价信息的区域*
+
 找到页面中的特价信息，并在其上单击鼠标右键，这时该区域被斜纹矩形高亮突出，如下图所示：
 
 https://webmo.googlecode.com/svn/wiki/8.jpg
@@ -252,7 +255,41 @@ https://webmo.googlecode.com/svn/wiki/9.jpg
 
 https://webmo.googlecode.com/svn/wiki/10.jpg
 
-步骤3：查看抽取信息
+*步骤3：查看抽取信息*
+
 用任意的浏览器打开刚刚生成的output.htm文件，即可得到生成的结果：
 
 https://webmo.googlecode.com/svn/wiki/11.jpg
+
+当然，这里的结果略显凌乱，这是因为内容丢失了CSS的信息，但稍懂CSS的用户都可以轻易控制这些外观，从而使得显示的结果更加美观。
+----
+== 4.3 应用例子2——获取北京气象信息 ==
+
+*步骤1：前往能够获取北京气象信息的网页*
+
+在地址栏输入http://www.timeanddate.com/worldclock/city.html?n=33并回车，程序窗口显示如下页面：
+
+https://webmo.googlecode.com/svn/wiki/12.jpg
+
+
+*步骤2：选取气象信息的区域*
+
+找到页面中的特价信息，并在其上单击鼠标右键，这时该区域被斜纹矩形高亮突出，如下图所示：
+
+https://webmo.googlecode.com/svn/wiki/13.jpg
+
+但显然这只是气象信息的某个条目，并不是我们想要的全部内容，因此需要扩大区域，以取得所有的气象信息。按一下F6键，则变成：
+
+https://webmo.googlecode.com/svn/wiki/17.jpg
+
+很遗憾，这仍然不是我们想要的，继续按F6扩大区域，直到如下图所示：
+
+https://webmo.googlecode.com/svn/wiki/14.jpg
+
+这样就选中了我们感兴趣的区域，然后按F8确定。
+
+*步骤3：查看抽取信息*
+
+用任意的浏览器打开刚刚生成的output.htm文件，即可得到生成的结果：
+
+https://webmo.googlecode.com/svn/wiki/15.jpg
