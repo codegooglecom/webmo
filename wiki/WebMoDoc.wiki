@@ -81,14 +81,35 @@ https://webmo.googlecode.com/svn/wiki/2.jpg
 ----
 == 3.1 开发环境 ==
 为保证能够在各种操作系统平台下编译，本项目100%使用纯C++的代码，并利用Qt Creator生成Makefile编译配置文件。本项目的开发系统环如下：
+
 ||操作系统||Windows 7||
 ||IDE||Qt Creator 1.3.1||
 ||GUI||Qt 4.6.2 (32 bit)||
+
 ----
 == 3.2 实现技术 ==
+=== 3.2.1 网页浏览的实现技术 ===
+本程序提供基本的网页浏览功能，其基于开源的浏览器引擎WebKit，该引起高效稳定，兼容性好，并且源代码结构清晰，易于维护，目前流行的浏览器如Safari、Google浏览器、遨游3以及搜狗浏览器2都是采用这一引擎。程序利用WebKit提供的类实现网页的渲染、前进、后退、刷新以及停止加载等功能。
+
+为了避免操作上的冲突，本程序在派生WebKit的view类时重写了一些基类的消息函数，并拦截了一些消息。譬如本程序需要用鼠标右键选定网页内容，于是在派生类鼠标右键响应函数中拦截鼠标事件消息，避免在基类作用下弹出右键菜单：
+
 {{{
-int i;
+void WebView::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(event->button()==Qt::RightButton)
+    {
+        enclosingElement = page()->mainFrame()->hitTestContent(event->pos()).enclosingBlockElement();
+    }
+    else
+    {
+        enclosingElement = QWebElement();
+        QWebView::mouseReleaseEvent(event);
+    }
+    this->update();
+}
 }}}
+
+=== 3.2.2 交互模块的实现技术 ===
 ----
 
 
