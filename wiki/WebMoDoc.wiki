@@ -236,7 +236,7 @@ for(int i=0;
 
 *步骤1：前往京东首页*
 
-在地址栏输入http://www.360buy.com/并回车，程序窗口显示如下页面：
+在地址栏输入http://www.360buy.com/ 并回车，程序窗口显示如下页面：
 
 https://webmo.googlecode.com/svn/wiki/7.jpg
 
@@ -267,7 +267,7 @@ https://webmo.googlecode.com/svn/wiki/11.jpg
 
 *步骤1：前往能够获取北京气象信息的网页*
 
-在地址栏输入http://www.timeanddate.com/worldclock/city.html?n=33并回车，程序窗口显示如下页面：
+在地址栏输入http://www.timeanddate.com/worldclock/city.html?n=33 并回车，程序窗口显示如下页面：
 
 https://webmo.googlecode.com/svn/wiki/12.jpg
 
