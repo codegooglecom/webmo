@@ -136,12 +136,6 @@ for(int i=0;
     i<100 && element->tagName().toLower()!="body" && !element->tagName().isEmpty();
     i++, element=&element->parent())
 {
-    if(element->hasAttribute("id"))
-    {
-        idTag = element->tagName().toLower();
-        idVal = element->attribute("id", "");
-        return;
-    }
     listAncestor.append(element->tagName().toLower());
     listIndex.append(getIndex(element));
 }
@@ -214,10 +208,51 @@ $.ajax({
 });
 }}}
 === 3.3.3 简化路径的搜索 ===
-----
-== 3.4 抽取器的实现技术 ==
+有时Element在Dom树中的深度很大，可考虑以下的简化搜索路径的方法：
+
+在搜索中加入id属性的约束，我们重写3.2.3.2中的遍历代码，加入id属性的检测，假如某个元素包含了id属性，即停止遍历。以后搜索时，就可以根据id直接定位到该结点，然后再沿着后面的路径定位到目标Element。新的遍历代码如下所示：
+{{{
+for(int i=0; 
+    i<100 && element->tagName().toLower()!="body" && !element->tagName().isEmpty(); 
+    i++, element=&element->parent()) 
+{ 
+    if(element->hasAttribute("id")) 
+    { 
+        idTag = element->tagName().toLower(); 
+        idVal = element->attribute("id", ""); 
+        return; 
+    } 
+    listAncestor.append(element->tagName().toLower()); 
+    listIndex.append(getIndex(element)); 
+}
+}}}
+注意，我们假定html标签的id属性值唯一。事实上，极少数不规范的网页并不遵循id属性的语义规定，即多个元素使用同一个id。在这种情况下，如果要选择的Element正好是首个使用该id的元素，那么结果仍然是正确的，否则就会定位到错误的Element，但这种概率非常非常低。
 ----
 = 4 应用 =
 ----
 == 4.1 使用环境说明 ==
-== 4.2 应用例子1 ==
+本程序为绿色软件，无需安装，不依赖额外的运行库，在Windows下通过测试。同时，亦可直接编译Linux、Mac OS等操作系统平台上运行的版本。
+== 4.2 应用例子1——获得京东的最新特价商品 ==
+步骤1：前往京东首页
+在地址栏输入http://www.360buy.com/并回车，程序窗口显示如下页面：
+
+https://webmo.googlecode.com/svn/wiki/7.jpg
+
+
+步骤2：选取特价信息的区域
+找到页面中的特价信息，并在其上单击鼠标右键，这时该区域被斜纹矩形高亮突出，如下图所示：
+
+https://webmo.googlecode.com/svn/wiki/8.jpg
+
+但显然这只是特价信息的某个条目，并不是我们想要的全部内容，因此需要扩大区域，以取得所有的特价信息。按一下F6键，则变成：
+
+https://webmo.googlecode.com/svn/wiki/9.jpg
+
+这样就选中了我们感兴趣的区域，然后按F8确定，将在程序目录下生成output.htm文件，这就是我们需要的抽取器：
+
+https://webmo.googlecode.com/svn/wiki/10.jpg
+
+步骤3：查看抽取信息
+用任意的浏览器打开刚刚生成的output.htm文件，即可得到生成的结果：
+
+https://webmo.googlecode.com/svn/wiki/11.jpg
