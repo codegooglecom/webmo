@@ -1,5 +1,5 @@
 = 0. 文档目录 =
-<wiki:toc max_depth="3"/>  
+<wiki:toc max_depth="4"/>  
 
 = 1. 项目简介 =
 ----
@@ -123,11 +123,57 @@ void WebView::mouseReleaseEvent(QMouseEvent *event)
 
 若用户需要调整Element的级别，则通过Dom树找到当前Element的父节点或第一个子结点，并把找到的节点设为当前Element。
 === 3.2.3 解析处理模块的实现技术 ===
-----
+==== 3.2.3.1 选取结点的预处理 ====
+在用户确定选取的Element后，程序首先对选取结点做预处理。我们知道，有些元素并不能单独存在，或者单独存在没有意义，譬如脱离table的tbody元素，或者脱离table/tbody的tr元素。如下面的代码所示，本程序的实现考虑了这一情况，更多的元素过滤将在今后完善。
+{{{
+while((element->tagName().toLower()=="table"||element->tagName().toLower()=="tbody") && !element->parent().isNull())
+    element = &element->parent();
+}}}
+==== 3.2.3.2 遍历祖先结点 ====
+过滤结点后，需要遍历这个Element的所有祖先结点（如下面的代码所示）。由于具内容意义的最高级标签为body，因此遍历到body元素为止。为了防止在某些不含body的不规范网页上遍历时进入死循环，加入了循环次数的限制（这里设为100次）。
+{{{
+for(int i=0;
+    i<100 && element->tagName().toLower()!="body" && !element->tagName().isEmpty();
+    i++, element=&element->parent())
+{
+    if(element->hasAttribute("id"))
+    {
+        idTag = element->tagName().toLower();
+        idVal = element->attribute("id", "");
+        return;
+    }
+    listAncestor.append(element->tagName().toLower());
+    listIndex.append(getIndex(element));
+}
+}}}
+在遍历祖先结点的同时，用两个list分别记录祖先结点的标签名以及他们是父结点的第几个子结点。关于如何求父结点的子结点位置，将在下面说明。
+==== 3.2.3.3 求结点在父结点的位置 ====
+Qt的Dom API只提供求邻居结点的函数，使用不断迭代邻居结点的方法将得出错误的结果。
 
+https://webmo.googlecode.com/svn/wiki/6.jpg
 
-
-
+如上图所示的情况，求C在B的儿子位置时，迭代邻居结点将会迭代到F，从而得出错误的位置3。因此需要用如下的方法如下实现：
+{{{
+int getIndex(QWebElement *element)
+{
+    int index = 0;
+    if(element->isNull() || element->parent().isNull())
+        return -1;
+    QWebElement *brother = &element->parent().firstChild();
+    //qDebug()<<element->toOuterXml();
+    while(!brother->isNull())
+    {
+        qDebug()<<brother->tagName()<<":"<<brother->classes()<<"      "<<element->tagName();
+        if(brother->toOuterXml()==element->toOuterXml())
+            return index;
+        if(brother->tagName()==element->tagName())
+            index++;
+        brother=&brother->nextSibling();
+    }
+    return -1;
+}
+}}}
+即先找到父节点，然后找到父节点的第一个子节点，判断是否与给定结点一致，如果不一致，就检查当前结点的下个兄弟结点，直到找到位置。该循环总能保证结束。
 = 4 应用 =
 ----
 == 4.1 使用环境说明 ==
