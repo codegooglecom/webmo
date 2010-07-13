@@ -174,6 +174,49 @@ int getIndex(QWebElement *element)
 }
 }}}
 即先找到父节点，然后找到父节点的第一个子节点，判断是否与给定结点一致，如果不一致，就检查当前结点的下个兄弟结点，直到找到位置。该循环总能保证结束。
+----
+== 3.3 抽取器的实现技术 ==
+=== 3.3.1 转换XPath路径表达 ===
+由3.2得到Element的祖先元素列表以及相应的位置信息后，我们就可以得到Dom树中指向目标Element的路径。这条路径可用XPath描述，譬如要选择某个id为res1135li的ul的第2个li的第1个链接，用XPath描述就是
+{{{
+//ul[@id='res1135li']/li[1]/li[0]
+}}}
+转换为jQuery的表达形式就是
+{{{
+ul[id='res1135li']>li:eq(1)>a:eq(0)
+}}}
+或者
+{{{
+ul#res1135li>li:eq(1)>a:eq(0)
+}}}
+=== 3.3.2 内容提取的AJAX框架 ===
+本程序生成的抽取器在AJAX的框架下，以get的方式无刷新定时加载页面，并设定返回形式为html。当成功返回时，进入解析处理的回调函数，使用3.3.1所生成的路径，借助jQuery的选择器提取相应的Element，并将其内容写入到输出页面中id为result的div。默认情况下，刷新的时间间隔为5秒，用户可自行配置。
+{{{
+$(function getmessage() {
+$.ajax({
+    url:"http://www.sina.com.cn/",
+    dataType:"html",
+    cache: false,
+    success:function(response){
+        $("#result").html($("ul#res1135li>li:eq(1)>a:eq(0)", jQuery(response)).html());
+    },
+    beforeSend: function() {
+        document.getElementById("loadimage").style.display = "block";
+    },
+    complete: function() {
+        $("#loadimage").hide();
+        setTimeout("getmessage()", 5000);
+    },
+    error: function() {
+        $("#result").html("error");
+    }
+})
+});
+}}}
+=== 3.3.3 简化路径的搜索 ===
+----
+== 3.4 抽取器的实现技术 ==
+----
 = 4 应用 =
 ----
 == 4.1 使用环境说明 ==
